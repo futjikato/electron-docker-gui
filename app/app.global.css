@@ -1,0 +1,13 @@
+@import "~font-awesome/css/font-awesome.css";
+@import "~uikit/dist/css/uikit.css";
+
+body {
+  position: relative;
+  min-height: 100vh;
+  background-color: #e2e2e2;
+  font-family: Arial, Helvetica, Helvetica Neue, serif;
+}
+
+.app-root {
+  padding: 3rem 1rem 0;
+}
