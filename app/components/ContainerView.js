@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Container from './../struct/Container';
 import Image from './../struct/Image';
 import CreateForm from './container/CreateForm';
+import StartForm from './container/StartForm';
 
 export default class ContainerView extends Component {
 
@@ -12,6 +13,8 @@ export default class ContainerView extends Component {
     startContainer: (id: string) => void,
     deleteContainer: (id: string) => void,
     createContainer: (imageRef: string, cmd: string) => void,
+    setPort: (containerId: string, protocol: string, port: number, hostPort: ?string) => void,
+    setVolume: (containerId: string, containerVolume: string, bind: ?string) => void,
     containers: Array<Container>,
     images: Array<Image>
   };
@@ -88,12 +91,13 @@ export default class ContainerView extends Component {
   }
 
   render() {
-    let modalClasses = 'uk-modal';
-    let modalStyles = {};
-    if (this.state.startContainerId) {
-      modalClasses += ' uk-open';
-      modalStyles['display'] = 'block';
-    }
+    let startingContainer = false;
+    this.props.containers.forEach((container: Container) => {
+      if (this.state.startContainerId === container.id) {
+        startingContainer = container;
+        return false;
+      }
+    });
 
     return (
       <div>
@@ -113,18 +117,13 @@ export default class ContainerView extends Component {
           </tbody>
         </table>
         <CreateForm images={this.props.images} createContainer={this.props.createContainer}/>
-        <div className={modalClasses} style={modalStyles}>
-          <div className="uk-modal-dialog">
-            <a onClick={this.cancelContainerStart.bind(this)} className="uk-modal-close uk-close">X</a>
-            <h3>Container Mapping</h3>
-            <div>
-              <label>Port Mappings</label>
-              <div>
-                <input type="text"/>:????
-              </div>
-            </div>
-          </div>
-        </div>
+        <StartForm
+          startContainer={this.props.startContainer}
+          cancelStartContainer={this.cancelContainerStart.bind(this)}
+          container={startingContainer}
+          setPort={this.props.setPort}
+          setVolume={this.props.setVolume}
+        />
       </div>
     );
   }

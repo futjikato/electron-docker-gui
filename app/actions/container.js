@@ -7,6 +7,8 @@ import Container from './../struct/Container';
 export const SET_CONTAINER = 'SET_CONTAINER';
 export const STOP_CONTAINER = 'STOP_CONTAINER';
 export const START_CONTAINER = 'START_CONTAINER';
+export const SET_PORT = 'SET_PORT';
+export const SET_VOLUME = 'SET_VOLUME';
 
 const LOAD_REQUEST_BREAK = 60000;
 
@@ -78,5 +80,24 @@ export function createContainer(imageRef: string, cmd: string) {
       imageRef,
       cmd
     });
+  }
+}
+
+export function setPort(containerId: string, protocol: string, port: number, hostPort: ?string) {
+  return {
+    type: SET_PORT,
+    id: containerId,
+    protocol,
+    port,
+    hostPort
+  };
+}
+
+export function setVolume(containerId: string, containerVolume: string, bind: ?string) {
+  return {
+    type: SET_VOLUME,
+    id: containerId,
+    volume: containerVolume,
+    volumeBind: bind
   }
 }
